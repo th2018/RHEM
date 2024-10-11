@@ -13,7 +13,9 @@ library(soilDB)
 
 
 ```{r}
-p <- vect("C:/Users/taohuang/Documents/Tao/ARS/Johnston_Draw/UAS_AOIs_JDT3_4.shp")
+p <- vect( "/Users/taohuang/Downloads/jdt34/jdt34.shp"
+  #"C:/Users/taohuang/Documents/Tao/ARS/Johnston_Draw/UAS_AOIs_JDT3_4.shp"
+  )
 p
 ```
 
@@ -63,7 +65,7 @@ tab
 ```
 
 ```{r}
-tab_num <- get_SDA_property(property =  c("silttotal_r" ,"sandtotal_r", "claytotal_r"), # , "sandvc_r", "sandvf_r",   "dbtenthbar_r","sandvf_h", "sandvf_l"),
+tab_num <- get_SDA_property(property =  c("silttotal_r" ,"sandtotal_r", "claytotal_r", "om_r"), # , "sandvc_r", "sandvf_r",   "dbtenthbar_r","sandvf_h", "sandvf_l"),
                         
                         
 
@@ -78,5 +80,78 @@ tab_num
 ```{r}
 library(soiltexture)
 TT.plot( class.sys = "USDA.TT" )
+```
+
+```{r}
+# Create a dummy data frame of soil textures:
+my.text <- data.frame( 
+    "CLAY"  = c(05,60,15,05,25,05,25,45,65,75,13,47), 
+    "SILT"  = c(05,08,15,25,55,85,65,45,15,15,17,43), 
+    "SAND"  = c(90,32,70,70,20,10,10,10,20,10,70,10), 
+    "OC"    = c(20,14,15,05,12,15,07,21,25,30,05,28)  
+)   #
+
+# Display the table:
+my.text
+
+# Classify according to the HYPRES / European Soil Map classification
+TT.points.in.classes( 
+    tri.data    = my.text[1:5,], 
+    class.sys   = "HYPRES.TT"  
+)   #
+
+# Classify according to the USDA classification
+TT.points.in.classes( 
+    tri.data    = my.text[1:5,], 
+    class.sys   = "USDA.TT"  
+)   #
+```
+
+```{r}
+my.text <- data.frame( 
+    "CLAY"  = tab_num$claytotal_r , 
+    "SILT"  =  tab_num$silttotal_r , 
+    "SAND"  = tab_num$sandtotal_r , 
+    "OC"    =  tab_num$om_r 
+)   #
+
+# Display the table:
+my.text
+
+
+
+# Classify according to the USDA classification
+TT.points.in.classes( 
+    tri.data    = my.text , 
+    class.sys   = "USDA.TT"  
+)
+```
+
+```{r}
+1 Cl
+2 SiCl
+3 SaCl
+4 ClLo
+5 SiClLo
+6 SaClLo
+7 Lo
+8 SiLo
+9 SaLo
+10 Si
+11 LoSa
+12 Sa
+1 clay
+2 silty clay
+3 sandy clay
+4 clay loam
+5 silty clay loam 
+6 sandy clay loam 
+7 loam
+8 silty loam 
+9 sandy loam
+10 silt
+11 loamy sand 
+12 sand
+
 ```
 
