@@ -1,0 +1,64 @@
+---
+title: "Untitled"
+author: "Tao"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r}
+library(terra)
+# install.packages("soilDB")
+library(soilDB)
+```
+
+
+```{r}
+p <- vect("C:/Users/taohuang/Documents/Tao/ARS/Johnston_Draw/UAS_AOIs_JDT3_4.shp")
+p
+```
+
+```{r}
+mu <- mukey.wcs( p , db = 'gSSURGO')
+mu
+summary(mu)
+```
+
+```{r}
+# inspect
+plot(mu, legend = FALSE, axes = FALSE, main = metags(mu)['description'])
+# add original point, after transforming to mukey grid CRS
+plot(project(p, "EPSG:5070"), add = TRUE, pch = 16)
+```
+
+```{r}
+b <- buffer(p, 1)
+mu <- mukey.wcs(b, db = "gSSURGO") #"STATSGO") # "gNATSGO") #'gSSURGO')
+# inspect
+plot(mu, legend = FALSE, axes = FALSE, main = metags(mu)['description'])
+
+# add buffer, after transforming to mukey grid CRS
+plot(project(b, "EPSG:5070"), add = TRUE)
+
+# add original point, after transforming to mukey grid CRS
+plot(project(p, "EPSG:5070"), add = TRUE, pch = 16)
+```
+
+```{r}
+# extract RAT for thematic mapping
+rat <- cats(mu)[[1]]
+
+# variables of interest
+vars <- c("taxclname",  "drainagecl", "hydgrp" , "	taxorder", "taxsuborder")# c("dbthirdbar_r", "awc_r", "ph1to1h2o_r") #, "taxclname") #, "drainagecl")
+
+# get / aggregate specific horizon-level properties from SDA
+# be sure to see the manual page for this function
+tab <- get_SDA_property(property = vars,
+                        method = "Dominant Component (Category)",
+                     #   method = "Dominant Component (Numeric)", 
+                        mukeys = as.integer(rat$mukey),
+                    #    top_depth = 0,
+               #         bottom_depth = 25
+                    )
+tab
+```
+
