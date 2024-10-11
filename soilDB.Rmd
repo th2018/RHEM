@@ -62,3 +62,21 @@ tab <- get_SDA_property(property = vars,
 tab
 ```
 
+```{r}
+tab_num <- get_SDA_property(property =  c("silttotal_r" ,"sandtotal_r", "claytotal_r"), # , "sandvc_r", "sandvf_r",   "dbtenthbar_r","sandvf_h", "sandvf_l"),
+                        
+                        
+
+                        method = "Dominant Component (Numeric)", 
+                        mukeys = as.integer(rat$mukey),
+                    #    top_depth = 0,
+               #         bottom_depth = 25
+                    )
+tab_num
+```
+
+```{r}
+library(soiltexture)
+TT.plot( class.sys = "USDA.TT" )
+```
+
