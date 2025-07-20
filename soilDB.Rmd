@@ -11,8 +11,8 @@ library(terra)
 library(soilDB)
 ```
 
-
 ```{r}
+# Methods to create a SpatVector from a file or other R object.
 p <- vect( "/Users/taohuang/Downloads/jdt34/jdt34.shp"
   #"C:/Users/taohuang/Documents/Tao/ARS/Johnston_Draw/UAS_AOIs_JDT3_4.shp"
   )
@@ -20,6 +20,7 @@ p
 ```
 
 ```{r}
+# using the soilDB package to retrieve soil Map Unit Keys (MUKEYs)
 mu <- mukey.wcs( p , db = 'gSSURGO')
 mu
 summary(mu)
