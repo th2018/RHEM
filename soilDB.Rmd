@@ -2,10 +2,13 @@
 title: "Untitled"
 author: "Tao"
 date: "`r Sys.Date()`"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r}
+# install.packages("terra") 
 library(terra)
 # install.packages("soilDB")
 library(soilDB)
@@ -28,7 +31,9 @@ summary(mu)
 
 ```{r}
 # inspect
-plot(mu, legend = FALSE, axes = FALSE, main = metags(mu)['description'])
+plot(mu, legend = FALSE, axes = FALSE
+     #, main = metags(mu)['description']
+     )
 # add original point, after transforming to mukey grid CRS
 plot(project(p, "EPSG:5070"), add = TRUE, pch = 16)
 ```
@@ -37,7 +42,9 @@ plot(project(p, "EPSG:5070"), add = TRUE, pch = 16)
 b <- buffer(p, 1)
 mu <- mukey.wcs(b, db = "gSSURGO") #"STATSGO") # "gNATSGO") #'gSSURGO')
 # inspect
-plot(mu, legend = FALSE, axes = FALSE, main = metags(mu)['description'])
+plot(mu, legend = FALSE, axes = FALSE
+     #, main = metags(mu)['description']
+     )
 
 # add buffer, after transforming to mukey grid CRS
 plot(project(b, "EPSG:5070"), add = TRUE)
@@ -79,6 +86,7 @@ tab_num
 ```
 
 ```{r}
+# install.packages("soiltexture")
 library(soiltexture)
 TT.plot( class.sys = "USDA.TT" )
 ```
